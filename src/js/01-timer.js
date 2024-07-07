@@ -15,6 +15,7 @@ const hours = document.querySelector("span[data-hours]")
 const minutes = document.querySelector("span[data-minutes]")
 const seconds = document.querySelector("span[data-seconds]")
 let userSelectedDate;
+let timerActive = false;
 
 
 const options = {
@@ -48,7 +49,10 @@ const options = {
   flatpickr(input, options);
 
   button.addEventListener('click', () => {
-  if (userSelectedDate) {
+  if (userSelectedDate && !timerActive) {
+    timerActive = true;
+    button.disabled = true;
+    input.disabled = true;
     startCountdown(userSelectedDate);
   }
 });
@@ -70,6 +74,9 @@ function startCountdown(targetDate) {
 
         if(distance <= 1000) {
           clearInterval(interval);
+          timerActive = false;
+          input.disabled = false;
+          flatpickr(input, options);
         }
 
     }, 1000);
